@@ -9,7 +9,10 @@ const PORT = 3001;
 
 // --- Middleware ---
 app.use(cors({
-    origin: 'https://content-3tf5.vercel.app',
+    origin: [
+        'https://content-3tf5.vercel.app',
+        'http://localhost:3000'
+    ],
 }));
 app.use(express.json());
 
