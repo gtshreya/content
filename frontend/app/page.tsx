@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useCallback } from 'react';
+import React, { useState} from 'react';
 import axios from 'axios';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -58,8 +58,14 @@ export default function LiteAnalyzerPage() {
             const suggestRes = await axios.post(`${API_BASE_URL}/suggest`, { text: extractedText });
             setSuggestions(suggestRes.data.suggestions || []);
 
-        } catch (err: any) {
-            setError(err.response?.data?.error || "An unexpected error occurred.");
+        } catch (err: unknown) {
+            if (axios.isAxiosError(err)) {
+                setError(err.response?.data?.error || "An unexpected error occurred.");
+            } else if (err instanceof Error) {
+                setError(err.message);
+            } else {
+                setError("An unexpected error occurred.");
+            }
         } finally {
             setIsLoading(false);
         }
@@ -140,7 +146,15 @@ const Header = () => (
     </div>
 );
 
-const FileUploader = ({ onDragEvent, onDrop, onFileChange, isDragging, isLoading }: any) => (
+interface FileUploaderProps {
+    onDragEvent: (e: React.DragEvent<HTMLDivElement>) => void;
+    onDrop: (e: React.DragEvent<HTMLDivElement>) => void;
+    onFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    isDragging: boolean;
+    isLoading: boolean;
+}
+
+const FileUploader = ({ onDragEvent, onDrop, onFileChange, isDragging, isLoading }: FileUploaderProps) => (
     <div 
         onDragEnter={onDragEvent} 
         onDragOver={onDragEvent} 
