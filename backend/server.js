@@ -11,7 +11,6 @@ const PORT = 3001;
 app.use(cors({
     origin: [
         'https://content-3tf5.vercel.app',
-        'http://localhost:3000'
     ],
 }));
 app.use(express.json());

@@ -45,7 +45,7 @@ export default function LiteAnalyzerPage() {
 
         try {
             // 1. Extract Text
-            const extractRes = await axios.post(`${API_BASE_URL}/extract`, formData);
+            const extractRes = await axios.post(`${API_BASE_URL}/api/extract`, formData);
             const extractedText = extractRes.data.text;
             if (!extractedText) {
                 setError("No text could be extracted from this file.");
@@ -55,7 +55,7 @@ export default function LiteAnalyzerPage() {
             setText(extractedText);
 
             // 2. Get Suggestions
-            const suggestRes = await axios.post(`${API_BASE_URL}/suggest`, { text: extractedText });
+            const suggestRes = await axios.post(`${API_BASE_URL}/api/suggest`, { text: extractedText });
             setSuggestions(suggestRes.data.suggestions || []);
 
         } catch (err: unknown) {
