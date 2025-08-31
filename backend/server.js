@@ -8,7 +8,9 @@ const app = express();
 const PORT = 3001;
 
 // --- Middleware ---
-app.use(cors());
+app.use(cors({
+    origin: 'https://content-3tf5.vercel.app',
+}));
 app.use(express.json());
 
 const storage = multer.memoryStorage();
